@@ -14,13 +14,15 @@ import { MinesweeperGame } from "./MinesweeperGame";
 import { WireCuttingGame } from "./WireCuttingGame";
 import { Victory } from "./Victory";
 import Typography from "@mui/material/Typography";
-import { IMinigameInfo, IMinigameInstanceInfo } from "./IMinigameInfo";
+import { IMinigameInfo } from "../IMinigameInfo";
+import { minigames } from "../data/minigames"
+import { Infiltration, IChallenge, ChallengeReward, ChallengeDifficulty, InfiltrationOutcome } from "../infiltration"
+import { IInfiltrationTarget } from "../IInfiltrationTarget"
+import { AlarmLevel } from "./AlarmLevel"
+import { Intel } from "./Intel"
 
 interface IProps {
-  StartingDifficulty: number;
-  Difficulty: number;
-  Reward: number;
-  MaxLevel: number;
+  Target: IInfiltrationTarget;
 }
 
 enum Stage {
@@ -31,58 +33,7 @@ enum Stage {
   Sell,
 }
 
-const minigamesInfo: IMinigameInfo[] = [
-  {
-    ProgrammaticName: "SlashGame",
-    FriendlyName: "Slash the Guard",
-    Callback: SlashGame,
-    Index: 0
-  },
-  {
-    ProgrammaticName: "BracketGame",
-    FriendlyName: "Close the Brackets",
-    Callback: BracketGame,
-    Index: 1
-  },
-  {
-    ProgrammaticName: "BackwardGame",
-    FriendlyName: "Type Reversed Text",
-    Callback: BackwardGame,
-    Index: 2
-  },
-  {
-    ProgrammaticName: "BribeGame",
-    FriendlyName: "Flatter the Guard",
-    Callback: BribeGame,
-    Index: 3
-  },
-  {
-    ProgrammaticName: "CheatCodeGame",
-    FriendlyName: "Enter the Code",
-    Callback: CheatCodeGame,
-    Index: 4
-  },
-  {
-    ProgrammaticName: "Cyberpunk2077Game",
-    FriendlyName: "Find the Symbols",
-    Callback: Cyberpunk2077Game,
-    Index: 5
-  },
-  {
-    ProgrammaticName: "MinesweeperGame",
-    FriendlyName: "Remember the Mines",
-    Callback: MinesweeperGame,
-    Index: 6
-  },
-  {
-    ProgrammaticName: "WireCuttingGame",
-    FriendlyName: "Cut the Wires",
-    Callback: WireCuttingGame,
-    Index: 7
-  },
-]
-
-const minigames = [
+const minigameDelegates = [
   SlashGame,
   BracketGame,
   BackwardGame,
@@ -96,56 +47,14 @@ const minigames = [
 export function Game(props: IProps): React.ReactElement {
   const player = use.Player();
   const router = use.Router();
-  const [level, setLevel] = useState(1);
   const [stage, setStage] = useState(Stage.Interlude);
   const [results, setResults] = useState("");
-  const [gameIds, setGameIds] = useState({
-    lastGames: [-1, -1],
-    id: Math.floor(Math.random() * minigames.length),
-    instanceInfo: {
-      Info: minigamesInfo[0],
-      Difficulty: 0,
-      Reward: 1
-    }
-  });
-
-  function getRandomGames(count: number): IMinigameInfo[] {
-    let ret: IMinigameInfo[] = [];
-
-    var chooseFrom = [...minigamesInfo];
-
-    // Avoid repeating a game that's been selected recently
-    chooseFrom = chooseFrom.filter(info => !gameIds.lastGames.includes(info.Index));
-
-    while (ret.length < count && chooseFrom.length > 0) {
-      let id: number = Math.floor(Math.random() * chooseFrom.length);
-      ret.push(minigamesInfo[id]);
-      chooseFrom.splice(id, 1);
-    }
-
-    return ret;
-  }
-
-  function InstantiateGame(game: IMinigameInfo): IMinigameInstanceInfo {
-    const baseDifficulty = props.Difficulty + level / 50;
-    const randomDifficulty = (Math.random() * 1.5) - 0.2
-    const bonusReward = Math.random() > 0.8 ? 1 : 0;
-    return {
-      Info: game,
-      Difficulty: baseDifficulty + randomDifficulty + bonusReward,
-      Reward: 1 + bonusReward,
-    }
-  }
-
-  function success(): void {
-    pushResult(true);
-    if (level === props.MaxLevel) {
-      setStage(Stage.Sell);
-    } else {
-      setStage(Stage.Interlude);
-      setLevel(level + gameIds.instanceInfo.Reward);
-    }
-  }
+  const [metagame, setMetagame] = useState(new Infiltration(props.Target, player));
+  const [currentChallenge, setCurrentChallenge] = useState({
+    MinigameDefinition: minigames[0],
+    Difficulty: new ChallengeDifficulty(),
+    Reward: new ChallengeReward()
+  })
 
   function pushResult(win: boolean): void {
     setResults((old) => {
@@ -156,15 +65,36 @@ export function Game(props: IProps): React.ReactElement {
     });
   }
 
+  function success(): void {
+    pushResult(true);
+    metagame.OnSuccess(currentChallenge);
+
+    if (metagame.Outcome == InfiltrationOutcome.Successful) {
+      setStage(Stage.Sell);
+    }
+    else {
+      setStage(Stage.Interlude);
+    }
+  }
+
   function failure(options?: { automated: boolean }): void {
-    setStage(Stage.Interlude);
     pushResult(false);
+    metagame.OnFailure(currentChallenge);
+
     // Kill the player immediately if they use automation, so
     // it's clear they're not meant to
-    const damage = options?.automated ? player.hp : props.StartingDifficulty * 3;
-    if (player.takeDamage(damage)) {
+    if (options?.automated) {
+      player.takeDamage(player.hp)
       router.toCity();
       return;
+    }
+
+    if (metagame.Outcome == InfiltrationOutcome.Failed) {
+      router.toCity();
+      return;
+    }
+    else {
+      setStage(Stage.Interlude);
     }
   }
 
@@ -173,18 +103,21 @@ export function Game(props: IProps): React.ReactElement {
     return;
   }
 
-  function selectNextGame(nextGame: IMinigameInstanceInfo) {
-    let updatedLastGames = [...gameIds.lastGames];
-    updatedLastGames.splice(0, 1);
-    updatedLastGames.push(gameIds.id);
-    setGameIds({
-      lastGames: updatedLastGames,
-      id: nextGame.Info.Index,
-      instanceInfo: nextGame
-    });
+  function finishInfiltration(): void {
+    if(metagame.Intel > 1) {
+      setStage(Stage.Sell);
+    }
+    else {
+      router.toCity();
+      return;
+    }
+  }
 
+  function selectNextGame(nextGame: IChallenge) {
+    setCurrentChallenge(nextGame);
     setStage(Stage.Countdown);
   }
+
 
   let stageComponent: React.ReactNode;
   switch (stage) {
@@ -192,27 +125,28 @@ export function Game(props: IProps): React.ReactElement {
       stageComponent = <Countdown onFinish={() => setStage(Stage.Minigame)} />;
       break;
     case Stage.Minigame: {
-      const MiniGame = minigames[gameIds.id];
-      stageComponent = <MiniGame onSuccess={success} onFailure={failure} difficulty={gameIds.instanceInfo.Difficulty} />;
+      const MiniGame = minigameDelegates[currentChallenge.MinigameDefinition.Index];
+      stageComponent = <MiniGame
+        onSuccess={success}
+        onFailure={failure}
+        difficulty={currentChallenge.Difficulty.Difficulty} />;
       break;
     }
     case Stage.Interlude:
-      const options = getRandomGames(3).map(info => InstantiateGame(info));
+      const options = metagame.CreateChallengeOptions(3);
       stageComponent = (
         <Interlude
-          onRetreat={() => router.toCity()}
+          onRetreat={finishInfiltration}
           onSelect={selectNextGame}
           options={options}
+          canRetreat={metagame.AlarmLevel < metagame.Target.maxAlarmLevelForEscape}
         />
       );
       break;
     case Stage.Sell:
       stageComponent = (
         <Victory
-          StartingDifficulty={props.StartingDifficulty}
-          Difficulty={props.Difficulty}
-          Reward={props.Reward}
-          MaxLevel={props.MaxLevel}
+          Metagame={metagame}
         />
       );
       break;
@@ -235,9 +169,17 @@ export function Game(props: IProps): React.ReactElement {
         </Grid>
         <Grid item xs={3}>
           <Typography>
-            Level: {level}&nbsp;/&nbsp;{props.MaxLevel}
+            Access: {metagame.AccessLevel}&nbsp;/&nbsp;{metagame.Target.maxClearanceLevel}
           </Typography>
           <Progress />
+        </Grid>
+        <Grid item xs={3}>
+          <AlarmLevel alarmLevel={metagame.AlarmLevel} maximumAlarmLevel={metagame.Target.maxAlarmLevelForEscape}/>
+        </Grid>
+        <Grid item xs={3}>
+          <Typography>
+            Intel: <Intel intel={metagame.Intel}/>
+          </Typography>
         </Grid>
 
         <Grid item xs={12}>

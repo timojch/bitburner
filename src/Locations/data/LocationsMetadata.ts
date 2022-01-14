@@ -13,6 +13,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 12,
       startingSecurityLevel: 8.18,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.AevumAeroCorp,
     types: [LocationType.Company],
@@ -22,6 +23,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 15,
       startingSecurityLevel: 8.19,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.AevumBachmanAndAssociates,
     types: [LocationType.Company],
@@ -31,6 +33,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 18,
       startingSecurityLevel: 9.55,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.AevumClarkeIncorporated,
     types: [LocationType.Company],
@@ -47,6 +50,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 37,
       startingSecurityLevel: 17.02,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.AevumECorp,
     types: [LocationType.Company, LocationType.TechVendor],
@@ -58,6 +62,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 25,
       startingSecurityLevel: 15.54,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.AevumFulcrumTechnologies,
     types: [LocationType.Company, LocationType.TechVendor],
@@ -69,6 +74,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 12,
       startingSecurityLevel: 7.89,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.AevumGalacticCybersystems,
     types: [LocationType.Company],
@@ -78,6 +84,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 6,
       startingSecurityLevel: 3.29,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.AevumNetLinkTechnologies,
     types: [LocationType.Company, LocationType.TechVendor],
@@ -89,6 +96,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 6,
       startingSecurityLevel: 5.35,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.AevumPolice,
     types: [LocationType.Company],
@@ -98,6 +106,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 5,
       startingSecurityLevel: 5.02,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.AevumRhoConstruction,
     types: [LocationType.Company],
@@ -121,6 +130,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 7,
       startingSecurityLevel: 5.85,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.AevumWatchdogSecurity,
     types: [LocationType.Company],
@@ -135,6 +145,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 25,
       startingSecurityLevel: 16.25,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.ChongqingKuaiGongInternational,
     types: [LocationType.Company],
@@ -144,6 +155,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 18,
       startingSecurityLevel: 12.59,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.ChongqingSolarisSpaceSystems,
     types: [LocationType.Company],
@@ -153,6 +165,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 12,
       startingSecurityLevel: 5.02,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.IshimaNovaMedical,
     types: [LocationType.Company],
@@ -162,6 +175,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 10,
       startingSecurityLevel: 3.2,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.IshimaOmegaSoftware,
     types: [LocationType.Company, LocationType.TechVendor],
@@ -173,6 +187,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 25,
       startingSecurityLevel: 5.38,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.IshimaStormTechnologies,
     types: [LocationType.Company, LocationType.TechVendor],
@@ -184,6 +199,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 17,
       startingSecurityLevel: 7.18,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.NewTokyoDefComm,
     types: [LocationType.Company],
@@ -193,6 +209,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 20,
       startingSecurityLevel: 5.9,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.NewTokyoGlobalPharmaceuticals,
     types: [LocationType.Company],
@@ -202,6 +219,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 5,
       startingSecurityLevel: 2.5,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.NewTokyoNoodleBar,
     types: [LocationType.Company, LocationType.Special],
@@ -211,6 +229,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 25,
       startingSecurityLevel: 5.52,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.NewTokyoVitaLife,
     types: [LocationType.Company, LocationType.Special],
@@ -220,6 +239,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 10,
       startingSecurityLevel: 3.62,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.Sector12AlphaEnterprises,
     types: [LocationType.Company, LocationType.TechVendor],
@@ -231,6 +251,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 25,
       startingSecurityLevel: 10.59,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.Sector12BladeIndustries,
     types: [LocationType.Company],
@@ -245,6 +266,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 15,
       startingSecurityLevel: 4.66,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.Sector12CarmichaelSecurity,
     types: [LocationType.Company],
@@ -259,6 +281,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 12,
       startingSecurityLevel: 5.9,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.Sector12DeltaOne,
     types: [LocationType.Company],
@@ -273,6 +296,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 25,
       startingSecurityLevel: 8.18,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.Sector12FourSigma,
     types: [LocationType.Company],
@@ -282,6 +306,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 17,
       startingSecurityLevel: 6.02,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.Sector12IcarusMicrosystems,
     types: [LocationType.Company],
@@ -298,6 +323,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 5,
       startingSecurityLevel: 3.13,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.Sector12JoesGuns,
     types: [LocationType.Company],
@@ -307,6 +333,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 31,
       startingSecurityLevel: 16.36,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.Sector12MegaCorp,
     types: [LocationType.Company],
@@ -335,6 +362,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 12,
       startingSecurityLevel: 5.9,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.Sector12UniversalEnergy,
     types: [LocationType.Company],
@@ -344,6 +372,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 15,
       startingSecurityLevel: 3.59,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.VolhavenCompuTek,
     types: [LocationType.Company, LocationType.TechVendor],
@@ -355,6 +384,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 18,
       startingSecurityLevel: 7.28,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.VolhavenHeliosLabs,
     types: [LocationType.Company],
@@ -364,6 +394,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 15,
       startingSecurityLevel: 4.35,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.VolhavenLexoCorp,
     types: [LocationType.Company],
@@ -380,6 +411,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 50,
       startingSecurityLevel: 8.53,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.VolhavenNWO,
     types: [LocationType.Company],
@@ -389,6 +421,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 25,
       startingSecurityLevel: 7.74,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.VolhavenOmniTekIncorporated,
     types: [LocationType.Company, LocationType.TechVendor],
@@ -400,6 +433,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 22,
       startingSecurityLevel: 6,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.VolhavenOmniaCybersystems,
     types: [LocationType.Company],
@@ -409,6 +443,7 @@ export const LocationsMetadata: IConstructorParams[] = [
     infiltrationData: {
       maxClearanceLevel: 18,
       startingSecurityLevel: 4.77,
+      maxAlarmLevelForEscape: 10.0
     },
     name: LocationName.VolhavenSysCoreSecurities,
     types: [LocationType.Company],

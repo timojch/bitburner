@@ -9,12 +9,11 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { Infiltration } from "../infiltration"
+import { Intel } from "./Intel"
 
 interface IProps {
-  StartingDifficulty: number;
-  Difficulty: number;
-  Reward: number;
-  MaxLevel: number;
+  Metagame : Infiltration;
 }
 
 export function Victory(props: IProps): React.ReactElement {
@@ -26,21 +25,10 @@ export function Victory(props: IProps): React.ReactElement {
     router.toCity();
   }
 
-  const levelBonus = props.MaxLevel * Math.pow(1.01, props.MaxLevel);
+  const intel = props.Metagame.Intel;
+  const repGain = Math.pow(intel, 1.1);
 
-  const repGain =
-    Math.pow(props.Reward + 1, 1.1) *
-    Math.pow(props.StartingDifficulty, 1.2) *
-    30 *
-    levelBonus *
-    BitNodeMultipliers.InfiltrationRep;
-
-  const moneyGain =
-    Math.pow(props.Reward + 1, 2) *
-    Math.pow(props.StartingDifficulty, 3) *
-    3e3 *
-    levelBonus *
-    BitNodeMultipliers.InfiltrationMoney;
+  const moneyGain = Math.pow(intel, 1.3) * 100;
 
   function sell(): void {
     player.gainMoney(moneyGain, "infiltration");
@@ -61,11 +49,11 @@ export function Victory(props: IProps): React.ReactElement {
     <>
       <Grid container spacing={3}>
         <Grid item xs={10}>
-          <Typography variant="h4">Infiltration successful!</Typography>
+          <Typography variant="h4">You have escaped successfully.</Typography>
         </Grid>
         <Grid item xs={10}>
           <Typography variant="h5" color="primary">
-            You can trade the confidential information you found for money or reputation.
+            You can trade the <Intel intel={props.Metagame.Intel}/> intel you found for money or reputation.
           </Typography>
           <Select value={faction} onChange={changeDropdown}>
             <MenuItem key={"none"} value={"none"}>

@@ -104,6 +104,10 @@ class NumeralFormatter {
     return this.formatReallyBigNumber(n);
   }
 
+  formatIntel(n: number): string {
+    return this.formatReallyBigNumber(n);
+  }
+
   formatFavor(n: number): string {
     return this.format(n, "0,0");
   }
