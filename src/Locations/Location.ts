@@ -4,17 +4,13 @@
 import { CityName } from "./data/CityNames";
 import { LocationName } from "./data/LocationNames";
 import { LocationType } from "./LocationTypeEnum";
-
-interface IInfiltrationMetadata {
-  maxClearanceLevel: number;
-  startingSecurityLevel: number;
-}
+import { IInfiltrationTarget } from "../Infiltration/IInfiltrationTarget"
 
 export interface IConstructorParams {
   city?: CityName | null;
   costMult?: number;
   expMult?: number;
-  infiltrationData?: IInfiltrationMetadata;
+  infiltrationData?: IInfiltrationTarget;
   name?: LocationName;
   types?: LocationType[];
   techVendorMaxRam?: number;
@@ -42,7 +38,7 @@ export class Location {
    * Companies can be infiltrated. This contains the data required for that
    * infiltration event
    */
-  infiltrationData?: IInfiltrationMetadata;
+  infiltrationData?: IInfiltrationTarget;
 
   /**
    * Identifier for location
