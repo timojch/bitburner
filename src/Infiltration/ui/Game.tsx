@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import { Countdown } from "./Countdown";
+import { Interlude } from "./Interlude";
 import { BracketGame } from "./BracketGame";
 import { SlashGame } from "./SlashGame";
 import { BackwardGame } from "./BackwardGame";
@@ -13,6 +14,7 @@ import { MinesweeperGame } from "./MinesweeperGame";
 import { WireCuttingGame } from "./WireCuttingGame";
 import { Victory } from "./Victory";
 import Typography from "@mui/material/Typography";
+import { IMinigameInfo, IMinigameInstanceInfo } from "./IMinigameInfo";
 
 interface IProps {
   StartingDifficulty: number;
@@ -24,9 +26,61 @@ interface IProps {
 enum Stage {
   Countdown = 0,
   Minigame,
+  Interlude,
   Result,
   Sell,
 }
+
+const minigamesInfo: IMinigameInfo[] = [
+  {
+    ProgrammaticName: "SlashGame",
+    FriendlyName: "Slash the Guard",
+    Callback: SlashGame,
+    Index: 0
+  },
+  {
+    ProgrammaticName: "BracketGame",
+    FriendlyName: "Close the Brackets",
+    Callback: BracketGame,
+    Index: 1
+  },
+  {
+    ProgrammaticName: "BackwardGame",
+    FriendlyName: "Type Reversed Text",
+    Callback: BackwardGame,
+    Index: 2
+  },
+  {
+    ProgrammaticName: "BribeGame",
+    FriendlyName: "Flatter the Guard",
+    Callback: BribeGame,
+    Index: 3
+  },
+  {
+    ProgrammaticName: "CheatCodeGame",
+    FriendlyName: "Enter the Code",
+    Callback: CheatCodeGame,
+    Index: 4
+  },
+  {
+    ProgrammaticName: "Cyberpunk2077Game",
+    FriendlyName: "Find the Symbols",
+    Callback: Cyberpunk2077Game,
+    Index: 5
+  },
+  {
+    ProgrammaticName: "MinesweeperGame",
+    FriendlyName: "Remember the Mines",
+    Callback: MinesweeperGame,
+    Index: 6
+  },
+  {
+    ProgrammaticName: "WireCuttingGame",
+    FriendlyName: "Cut the Wires",
+    Callback: WireCuttingGame,
+    Index: 7
+  },
+]
 
 const minigames = [
   SlashGame,
@@ -43,27 +97,44 @@ export function Game(props: IProps): React.ReactElement {
   const player = use.Player();
   const router = use.Router();
   const [level, setLevel] = useState(1);
-  const [stage, setStage] = useState(Stage.Countdown);
+  const [stage, setStage] = useState(Stage.Interlude);
   const [results, setResults] = useState("");
   const [gameIds, setGameIds] = useState({
     lastGames: [-1, -1],
     id: Math.floor(Math.random() * minigames.length),
+    instanceInfo: {
+      Info: minigamesInfo[0],
+      Difficulty: 0,
+      Reward: 1
+    }
   });
 
-  function nextGameId(): number {
-    let id = gameIds.lastGames[0];
-    const ids = [gameIds.lastGames[0], gameIds.lastGames[1], gameIds.id];
-    while (ids.includes(id)) {
-      id = Math.floor(Math.random() * minigames.length);
+  function getRandomGames(count: number): IMinigameInfo[] {
+    let ret: IMinigameInfo[] = [];
+
+    var chooseFrom = [...minigamesInfo];
+
+    // Avoid repeating a game that's been selected recently
+    chooseFrom = chooseFrom.filter(info => !gameIds.lastGames.includes(info.Index));
+
+    while (ret.length < count && chooseFrom.length > 0) {
+      let id: number = Math.floor(Math.random() * chooseFrom.length);
+      ret.push(minigamesInfo[id]);
+      chooseFrom.splice(id, 1);
     }
-    return id;
+
+    return ret;
   }
 
-  function setupNextGame(): void {
-    setGameIds({
-      lastGames: [gameIds.lastGames[1], gameIds.id],
-      id: nextGameId(),
-    });
+  function InstantiateGame(game: IMinigameInfo): IMinigameInstanceInfo {
+    const baseDifficulty = props.Difficulty + level / 50;
+    const randomDifficulty = (Math.random() * 1.5) - 0.2
+    const bonusReward = Math.random() > 0.8 ? 1 : 0;
+    return {
+      Info: game,
+      Difficulty: baseDifficulty + randomDifficulty + bonusReward,
+      Reward: 1 + bonusReward,
+    }
   }
 
   function success(): void {
@@ -71,10 +142,9 @@ export function Game(props: IProps): React.ReactElement {
     if (level === props.MaxLevel) {
       setStage(Stage.Sell);
     } else {
-      setStage(Stage.Countdown);
-      setLevel(level + 1);
+      setStage(Stage.Interlude);
+      setLevel(level + gameIds.instanceInfo.Reward);
     }
-    setupNextGame();
   }
 
   function pushResult(win: boolean): void {
@@ -87,7 +157,7 @@ export function Game(props: IProps): React.ReactElement {
   }
 
   function failure(options?: { automated: boolean }): void {
-    setStage(Stage.Countdown);
+    setStage(Stage.Interlude);
     pushResult(false);
     // Kill the player immediately if they use automation, so
     // it's clear they're not meant to
@@ -96,12 +166,24 @@ export function Game(props: IProps): React.ReactElement {
       router.toCity();
       return;
     }
-    setupNextGame();
   }
 
   function cancel(): void {
     router.toCity();
     return;
+  }
+
+  function selectNextGame(nextGame: IMinigameInstanceInfo) {
+    let updatedLastGames = [...gameIds.lastGames];
+    updatedLastGames.splice(0, 1);
+    updatedLastGames.push(gameIds.id);
+    setGameIds({
+      lastGames: updatedLastGames,
+      id: nextGame.Info.Index,
+      instanceInfo: nextGame
+    });
+
+    setStage(Stage.Countdown);
   }
 
   let stageComponent: React.ReactNode;
@@ -111,9 +193,19 @@ export function Game(props: IProps): React.ReactElement {
       break;
     case Stage.Minigame: {
       const MiniGame = minigames[gameIds.id];
-      stageComponent = <MiniGame onSuccess={success} onFailure={failure} difficulty={props.Difficulty + level / 50} />;
+      stageComponent = <MiniGame onSuccess={success} onFailure={failure} difficulty={gameIds.instanceInfo.Difficulty} />;
       break;
     }
+    case Stage.Interlude:
+      const options = getRandomGames(3).map(info => InstantiateGame(info));
+      stageComponent = (
+        <Interlude
+          onRetreat={() => router.toCity()}
+          onSelect={selectNextGame}
+          options={options}
+        />
+      );
+      break;
     case Stage.Sell:
       stageComponent = (
         <Victory
