@@ -62,10 +62,7 @@ export function InfiltrationRoot(props: IProps): React.ReactElement {
 
   return (
     <Game
-      StartingDifficulty={startingDifficulty}
-      Difficulty={difficulty}
-      Reward={reward}
-      MaxLevel={props.location.infiltrationData.maxClearanceLevel}
+      Target={props.location.infiltrationData}
     />
   );
 }
