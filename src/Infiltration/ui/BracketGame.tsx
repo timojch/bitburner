@@ -32,7 +32,7 @@ const difficulties: {
 function generateLeftSide(difficulty: Difficulty): string {
   let str = "";
   for (let i = 0; i < difficulty.numRuns; i++) {
-    const runLength = Math.ceil(Math.random() * Math.random() * difficulty.maxRunLength);
+    const runLength = Math.ceil(Math.pow(Math.random(), 2.6) * difficulty.maxRunLength);
     str += (["[", "<", "(", "{"][Math.floor(Math.random() * 4)]).repeat(runLength);
   }
 
