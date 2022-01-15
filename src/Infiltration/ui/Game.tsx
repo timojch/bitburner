@@ -53,7 +53,8 @@ export function Game(props: IProps): React.ReactElement {
   const [currentChallenge, setCurrentChallenge] = useState({
     MinigameDefinition: minigames[0],
     Difficulty: new ChallengeDifficulty(),
-    Reward: new ChallengeReward()
+    Reward: new ChallengeReward(),
+    IsComplete: false,
   })
 
   function pushResult(win: boolean): void {
@@ -66,6 +67,9 @@ export function Game(props: IProps): React.ReactElement {
   }
 
   function success(): void {
+    if(currentChallenge.IsComplete)
+      return;
+      
     pushResult(true);
     metagame.OnSuccess(currentChallenge);
 
@@ -78,6 +82,9 @@ export function Game(props: IProps): React.ReactElement {
   }
 
   function failure(options?: { automated: boolean }): void {
+    if(currentChallenge.IsComplete)
+      return;
+
     pushResult(false);
     metagame.OnFailure(currentChallenge);
 

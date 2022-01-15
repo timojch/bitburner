@@ -25,7 +25,8 @@ export interface IChallengeDifficulty {
 export interface IChallenge {
   MinigameDefinition: IMinigameInfo,
   Difficulty: IChallengeDifficulty,
-  Reward: IChallengeReward
+  Reward: IChallengeReward,
+  IsComplete: boolean
 }
 
 export class ChallengeDifficulty implements IChallengeDifficulty {
@@ -77,19 +78,30 @@ export class Infiltration {
   }
 
   OnSuccess(challenge: IChallenge) {
+    if (challenge.IsComplete) { return; }
+    challenge.IsComplete = true;
+
     this.RecordGame(challenge.MinigameDefinition);
     this.ApplyReward(challenge.Reward);
-    this.AlarmLevel += Math.floor(1 + this.AccessLevel/5);
+    if (challenge.Reward.ReduceAlarmLevelAmount <= 0) {
+      this.AlarmLevel += Math.floor(1 + this.AccessLevel / 5);
+    }
+    else {
+      this.TimesAlarmsReduced++;
+    }
   }
 
   OnFailure(challenge: IChallenge) {
+    if (challenge.IsComplete) { return; }
+    challenge.IsComplete = true;
+
     this.RecordGame(challenge.MinigameDefinition);
     const damage = Math.ceil(challenge.Difficulty.Difficulty * 3);
     if (this.Player.takeDamage(damage)) {
       this.Outcome = InfiltrationOutcome.Failed;
     }
 
-    this.AlarmLevel += Math.floor(1 + this.AccessLevel/5);
+    this.AlarmLevel += Math.floor(1 + this.AccessLevel / 5);
   }
 
   ApplyReward(reward: IChallengeReward): void {
@@ -99,7 +111,7 @@ export class Infiltration {
     if (reward.MoneyAmount > 0) {
       this.Player.gainMoney(reward.MoneyAmount, "infiltration");
     }
-    
+
     this.AlarmLevel -= reward.ReduceAlarmLevelAmount;
     this.AlarmLevel = Math.max(this.AlarmLevel, 0);
 
@@ -133,7 +145,8 @@ export class Infiltration {
       ret.push({
         MinigameDefinition: randomGame,
         Difficulty: this.CreateChallengeDifficulty(difficulty),
-        Reward: combineRewards(randomReward, difficultyBasedReward)
+        Reward: combineRewards(randomReward, difficultyBasedReward),
+        IsComplete: false
       });
     }
 
