@@ -9,7 +9,7 @@ The goal of this mod is...
 1. To make infiltration more strategic / *Players feel like they're making choices during infiltrations.*
 2. To make infiltration more enticing / *Players should be excited to try to infiltrate a target even if their stats aren't high enough to fully infiltrate it.*
 3. To make infiltration less repetitive / *Players should get their fill of infiltration in a single go - they should not immediately re-enter an infiltration after completing one.*
-4. To preserve compatibility with existing interfaces / *I can update this mod easily if hydroflame adds a new minigame*
+4. To preserve compatibility with existing interfaces / *I can update easily if hydroflame adds a new minigame*
 
 ## Non-goals
 
@@ -26,7 +26,7 @@ During infiltration, the following stats are tracked.
 
 Intel determines the final reward. After successfully escaping, it can be exchanged for money or faction reputation. Intel's value is greater-than-linear; twice as much intel will return more than twice as much money or rep, so a long infiltration is better than a bunch of short ones. (Probably something like pow(intel, 1.1))
 
-Each target will have a maximum amount of Intel that can be extracted from them, which persists between infiltrations and regenerates slowly. (There's only *so much* you can say about a ramen bar before people stop paying you for it.)
+~~Each target will have a maximum amount of Intel that can be extracted from them, which persists between infiltrations and regenerates slowly. (There's only *so much* you can say about a ramen bar before people stop paying you for it.)~~ -- This didn't make it in to the current version. It would have required adding more data to save files, as well as having it correctly reset over bitnodes and augment installs. I'll look into doing this later.
 
 ### Access Level
 
@@ -78,9 +78,9 @@ Difficulty: +0
 
 ### Healing
 
-Successful completion of this game will increase the player's current HP.
+Successful completion of this game will restore some of the player's HP.
 
-Rarity: Nonexistant scaling up to uncommon as player's HP decreases. (~0-10%)
+Rarity: Rare (~5%), only appears when below half HP.
 Difficulty: +1
 
 ### Increase Access
@@ -94,7 +94,7 @@ Difficulty: +0.5
 
 Successful completion of this game will decrease the player's alarm level.
 
-Rarity: Rare (5%-10%), scaling up to Uncommon at high alarm levels
+Rarity: Starts out Common (20%), but becomes a little less common each time it's picked.
 Difficulty: +0.5
 
 ### Escape
@@ -115,17 +115,17 @@ Difficulty: +1, +modifiers from other rolled options.
 
 ## Stretch Goals
 
-After I finish the above, if I haven't gotten sick of it, I might do something from the following.
+Now that I'm done with the above, I might do some of the following.
 
-### Maybe-do Features
+### Coming Up?
 * Change the way stats impact challenges - for example, Dexterity and Agility might increase the time limits on some games, while Strength, Charisma, and Hacking decrease their difficulties. Defense already affects HP, so probably not much to do there. (Might need to be careful with Hack; it's much easier to get a high hacking stat than physical stats in the early game. Also this contradicts design goal #4.)
 * Make challenges award EXP
 * Do a difficulty pass to bring the different challenge minigames more into alignment. Need more playtesters for this, though. Just because **I** can't seem to win at *Match the Symbols!* no matter how hard I try doesn't mean it's actually overtuned.
 
-### Other ideas
+### Half-baked ideas
 * Make different factions like Intel on different targets. Slum Snakes might want to know about Aevum Police and Joes Guns, while NiteSec is more interested in technology companies)
 * Add more infiltration targets (including the three-letter agencies)
 * Add some new unique augments could be offered as super rare challenge rewards - steal a prototype *DataJack II* from OmniTech!
 
 ### Half-assed ideas
-* Add a BitNode that's all about infiltration. (Maybe have servers require infiltration to open ports?)
+* Add a BitNode that's all about infiltration. This honestly sounds pretty terrible; infiltration is still best in small doses and can't be automated, which means that a bitnode about it would get repetive fast.
