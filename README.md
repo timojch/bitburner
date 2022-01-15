@@ -1,3 +1,7 @@
+# Modified Version
+
+This version of BitBurner has been modified from the original.
+
 # Bitburner
 
 [![Build Status](https://github.com/danielyxie/bitburner/actions/workflows/ci.yml/badge.svg?branch=dev)](https://github.com/danielyxie/bitburner/actions/workflows/ci.yml)
