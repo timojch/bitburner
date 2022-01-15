@@ -14,14 +14,16 @@ interface Difficulty {
 
 const difficulties: {
   Trivial: Difficulty;
+  Easy: Difficulty;
   Normal: Difficulty;
   Hard: Difficulty;
   Impossible: Difficulty;
 } = {
-  Trivial: { timer: 12000, size: 6 },
-  Normal: { timer: 9000, size: 8 },
+  Trivial: { timer: 10000, size: 6 },
+  Easy: { timer: 9000, size: 8 },
+  Normal: { timer: 6000, size: 9 },
   Hard: { timer: 5000, size: 9 },
-  Impossible: { timer: 2500, size: 12 },
+  Impossible: { timer: 4000, size: 12 },
 };
 
 export function BribeGame(props: IMinigameProps): React.ReactElement {

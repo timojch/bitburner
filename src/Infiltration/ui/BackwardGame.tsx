@@ -11,24 +11,25 @@ import Typography from "@mui/material/Typography";
 interface Difficulty {
   [key: string]: number;
   timer: number;
-  min: number;
-  max: number;
+  minLength: number;
 }
 
 const difficulties: {
   Trivial: Difficulty;
+  Easy: Difficulty;
   Normal: Difficulty;
   Hard: Difficulty;
   Impossible: Difficulty;
 } = {
-  Trivial: { timer: 16000, min: 3, max: 4 },
-  Normal: { timer: 12500, min: 2, max: 3 },
-  Hard: { timer: 15000, min: 3, max: 4 },
-  Impossible: { timer: 8000, min: 4, max: 4 },
+  Trivial: { timer: 12000, minLength: 15 },
+  Easy: { timer: 12000, minLength: 18 },
+  Normal: { timer: 12000, minLength: 26 },
+  Hard: { timer: 12000, minLength: 31 },
+  Impossible: { timer: 12000, minLength: 40 },
 };
 
 export function BackwardGame(props: IMinigameProps): React.ReactElement {
-  const difficulty: Difficulty = { timer: 0, min: 0, max: 0 };
+  const difficulty: Difficulty = { timer: 0, minLength: 0 };
   interpolate(difficulties, props.difficulty, difficulty);
   const timer = difficulty.timer;
   const [answer] = useState(makeAnswer(difficulty));
@@ -64,10 +65,9 @@ export function BackwardGame(props: IMinigameProps): React.ReactElement {
 }
 
 function makeAnswer(difficulty: Difficulty): string {
-  const length = random(difficulty.min, difficulty.max);
   let answer = "";
-  for (let i = 0; i < length; i++) {
-    if (i > 0) answer += " ";
+  while (answer.length < difficulty.minLength) {
+    if (answer.length > 0) answer += " ";
     answer += words[Math.floor(Math.random() * words.length)];
   }
 

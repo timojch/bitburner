@@ -11,27 +11,29 @@ import Typography from "@mui/material/Typography";
 interface Difficulty {
   [key: string]: number;
   timer: number;
-  min: number;
-  max: number;
+  numRuns: number;
+  maxRunLength: number;
 }
 
 const difficulties: {
   Trivial: Difficulty;
+  Easy: Difficulty;
   Normal: Difficulty;
   Hard: Difficulty;
   Impossible: Difficulty;
 } = {
-  Trivial: { timer: 8000, min: 2, max: 3 },
-  Normal: { timer: 6000, min: 4, max: 5 },
-  Hard: { timer: 4000, min: 4, max: 6 },
-  Impossible: { timer: 2500, min: 7, max: 7 },
+  Trivial: { timer: 8000, numRuns: 4, maxRunLength: 2 },
+  Easy: { timer: 7000, numRuns: 5, maxRunLength: 2 },
+  Normal: { timer: 6000, numRuns: 6, maxRunLength: 3 },
+  Hard: { timer: 5000, numRuns: 7, maxRunLength: 3 },
+  Impossible: { timer: 4000, numRuns: 9, maxRunLength: 4 },
 };
 
 function generateLeftSide(difficulty: Difficulty): string {
   let str = "";
-  const length = random(difficulty.min, difficulty.max);
-  for (let i = 0; i < length; i++) {
-    str += ["[", "<", "(", "{"][Math.floor(Math.random() * 4)];
+  for (let i = 0; i < difficulty.numRuns; i++) {
+    const runLength = Math.ceil(Math.random() * Math.random() * difficulty.maxRunLength);
+    str += (["[", "<", "(", "{"][Math.floor(Math.random() * 4)]).repeat(runLength);
   }
 
   return str;
@@ -55,7 +57,7 @@ function match(left: string, right: string): boolean {
 }
 
 export function BracketGame(props: IMinigameProps): React.ReactElement {
-  const difficulty: Difficulty = { timer: 0, min: 0, max: 0 };
+  const difficulty: Difficulty = { timer: 0, numRuns: 0, maxRunLength: 0 };
   interpolate(difficulties, props.difficulty, difficulty);
   const timer = difficulty.timer;
   const [right, setRight] = useState("");

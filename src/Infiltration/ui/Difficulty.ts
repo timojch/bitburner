@@ -4,6 +4,7 @@ interface DifficultySetting {
 
 interface DifficultySettings {
   Trivial: DifficultySetting;
+  Easy: DifficultySetting;
   Normal: DifficultySetting;
   Hard: DifficultySetting;
   Impossible: DifficultySetting;
@@ -25,8 +26,9 @@ export function interpolate(settings: DifficultySettings, n: number, out: Diffic
     return a;
   }
   if (n < 0) return lerpD(settings.Trivial, settings.Trivial, 0);
-  if (n >= 0 && n < 1) return lerpD(settings.Trivial, settings.Normal, n);
-  if (n >= 1 && n < 2) return lerpD(settings.Normal, settings.Hard, n - 1);
-  if (n >= 2 && n < 3) return lerpD(settings.Hard, settings.Impossible, n - 2);
+  if (n >= 0 && n < 1) return lerpD(settings.Trivial, settings.Easy, n);
+  if (n >= 1 && n < 2) return lerpD(settings.Easy, settings.Normal, n - 1);
+  if (n >= 2 && n < 3) return lerpD(settings.Normal, settings.Hard, n - 2);
+  if (n >= 3 && n < 4) return lerpD(settings.Hard, settings.Impossible, n - 3);
   return lerpD(settings.Impossible, settings.Impossible, 0);
 }
