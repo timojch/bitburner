@@ -40,20 +40,21 @@ export function Cyberpunk2077Game(props: IMinigameProps): React.ReactElement {
   function press(this: Document, event: KeyboardEvent): void {
     event.preventDefault();
     const move = [0, 0];
-    const arrow = getArrow(event);
-    switch (arrow) {
-      case "↑":
-        move[1]--;
-        break;
-      case "←":
-        move[0]--;
-        break;
-      case "↓":
-        move[1]++;
-        break;
-      case "→":
-        move[0]++;
-        break;
+    for (let arrow of getArrow(event)) {
+      switch (arrow) {
+        case "↑":
+          move[1]--;
+          break;
+        case "←":
+          move[0]--;
+          break;
+        case "↓":
+          move[1]++;
+          break;
+        case "→":
+          move[0]++;
+          break;
+      }
     }
     const next = [pos[0] + move[0], pos[1] + move[1]];
     next[0] = (next[0] + grid[0].length) % grid[0].length;
