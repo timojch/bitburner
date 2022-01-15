@@ -81,6 +81,7 @@ export class Terminal implements ITerminal {
 
   outputHistory: (Output | Link | RawOutput)[] = [
     new Output(`Bitburner v${CONSTANTS.VersionString} (${hash()})`, "primary"),
+    new Output(`MistyMods-Infiltration is a fork of BitBurner. Modifications have been made to the source files`, "primary"),
   ];
 
   // True if a Coding Contract prompt is opened
