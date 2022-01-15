@@ -10,25 +10,26 @@ import Typography from "@mui/material/Typography";
 interface Difficulty {
   [key: string]: number;
   timer: number;
-  width: number;
-  height: number;
-  symbols: number;
+  size: number;
+  sequenceLength: number;
 }
 
 const difficulties: {
   Trivial: Difficulty;
+  Easy: Difficulty;
   Normal: Difficulty;
   Hard: Difficulty;
   Impossible: Difficulty;
 } = {
-  Trivial: { timer: 12500, width: 3, height: 3, symbols: 6 },
-  Normal: { timer: 15000, width: 4, height: 4, symbols: 7 },
-  Hard: { timer: 12500, width: 5, height: 5, symbols: 8 },
-  Impossible: { timer: 10000, width: 6, height: 6, symbols: 9 },
+  Trivial: { timer: 12500, size: 2 * 2, sequenceLength: 6 },
+  Easy: { timer: 12500, size: 3 * 3, sequenceLength: 6 },
+  Normal: { timer: 15000, size: 4 * 4, sequenceLength: 7 },
+  Hard: { timer: 12500, size: 5 * 5, sequenceLength: 8 },
+  Impossible: { timer: 10000, size: 6 * 6, sequenceLength: 9 },
 };
 
 export function Cyberpunk2077Game(props: IMinigameProps): React.ReactElement {
-  const difficulty: Difficulty = { timer: 0, width: 0, height: 0, symbols: 0 };
+  const difficulty: Difficulty = { timer: 0, size: 0, sequenceLength: 0 };
   interpolate(difficulties, props.difficulty, difficulty);
   const timer = difficulty.timer;
   const [grid] = useState(generatePuzzle(difficulty));
@@ -123,7 +124,7 @@ export function Cyberpunk2077Game(props: IMinigameProps): React.ReactElement {
 
 function generateAnswer(grid: string[][], difficulty: Difficulty): string[] {
   const answer = [];
-  for (let i = 0; i < Math.round(difficulty.symbols); i++) {
+  for (let i = 0; i < Math.round(difficulty.sequenceLength); i++) {
     answer.push(grid[Math.floor(Math.random() * grid.length)][Math.floor(Math.random() * grid[0].length)]);
   }
   return answer;
@@ -135,9 +136,24 @@ function randChar(): string {
 
 function generatePuzzle(difficulty: Difficulty): string[][] {
   const puzzle = [];
-  for (let i = 0; i < Math.round(difficulty.height); i++) {
+  let width = 1; let height = 1;
+  while (width * height < difficulty.size) {
+    if (width <= height) {
+      width++;
+    }
+    else {
+      height++;
+    }
+  }
+
+  if (Math.random() > 0.5) {
+    // swap width and height
+    [width, height] = [height, width];
+  }
+
+  for (let i = 0; i < Math.round(height); i++) {
     const line = [];
-    for (let j = 0; j < Math.round(difficulty.width); j++) {
+    for (let j = 0; j < Math.round(width); j++) {
       line.push(randChar() + randChar());
     }
     puzzle.push(line);

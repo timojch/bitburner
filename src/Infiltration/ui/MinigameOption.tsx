@@ -15,6 +15,7 @@ import { Intel } from "./Intel"
 import { Theme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
 import createStyles from "@mui/styles/createStyles";
+import { ChallengeDifficultyText } from "./ChallengeDifficultyText"
 
 import { IChallengeDifficulty, IChallengeReward } from "../infiltration"
 
@@ -108,7 +109,7 @@ export function MinigameOption(props: IProps): React.ReactElement {
         }>
           <Button onClick={props.onClick}>{props.buttonText}</Button>
         </Tooltip>
-        <Typography>Difficulty: <span style={{ color: difficultyColor }}>{difficultyName}</span></Typography>
+        <ChallengeDifficultyText difficulty={props.difficulty.Difficulty} />
         {rewardText(props.reward)}
       </Paper>
     </Box>

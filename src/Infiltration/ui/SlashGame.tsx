@@ -13,13 +13,15 @@ interface Difficulty {
 
 const difficulties: {
   Trivial: Difficulty;
+  Easy: Difficulty
   Normal: Difficulty;
   Hard: Difficulty;
   Impossible: Difficulty;
 } = {
   Trivial: { window: 600 },
-  Normal: { window: 325 },
-  Hard: { window: 250 },
+  Easy: { window: 325 },
+  Normal: { window: 250 },
+  Hard: { window: 200 },
   Impossible: { window: 150 },
 };
 
