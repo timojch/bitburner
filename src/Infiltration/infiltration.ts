@@ -156,13 +156,13 @@ export class Infiltration {
 
         if (options.length == 0) {
           // If there's still no options, bail.
-          console.log(`Unable to finish generating rewards. Generated ${options.length}/${count}`);
+          //console.log(`Unable to finish generating rewards. Generated ${options.length}/${count}`);
           break;
         }
       }
 
       const rewardDraw: IChallengeReward = drawRandom(options)
-      console.log(`Generated reward: ${rewardDraw}`);
+      //console.log(`Generated reward: ${rewardDraw}`);
       ret.push(rewardDraw);
     }
 
@@ -233,7 +233,7 @@ export class Infiltration {
           ret.push([jackpotReward, 10])
         }
         else {
-          console.log(`Unable to gennerate jackpot reward.`);
+          //console.log(`Unable to gennerate jackpot reward.`);
         }
       }
     }
