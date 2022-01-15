@@ -27,4 +27,4 @@ npm install
 cd ..
 
 # And finally build the app.
-npm run electron:packager
+npm run electron:win32x64
