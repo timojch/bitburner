@@ -139,7 +139,7 @@ export function Game(props: IProps): React.ReactElement {
           onRetreat={finishInfiltration}
           onSelect={selectNextGame}
           options={options}
-          canRetreat={metagame.AlarmLevel < metagame.Target.maxAlarmLevelForEscape}
+          metagame={metagame}
         />
       );
       break;

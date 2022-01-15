@@ -87,12 +87,19 @@ export function Intro(props: IProps): React.ReactElement {
         </Grid>
         <Grid item xs={10}>
           <Typography>
-            Infiltration is a series of short minigames that get progressively harder. You take damage for failing them.
-            Reaching the maximum level rewards you with intel you can trade for money or reputation.
+            Infiltration is a series of short minigames during which you accumulate Intel, which you can
+            trade for faction reputation or money after a successful escape.
           </Typography>
           <br />
           <Typography>
-            The minigames you play are randomly selected. It might take you few tries to get used to them.
+            At each stage, you will be given a choice of three different challenges, each with different
+            rewards and possibly different difficulties.
+          </Typography>
+          <br />
+          <Typography>
+            Completing a challenge also increases the Alarm Level, which increases the difficulty of all
+            games. At low Alarm Level, you can end the infiltration between games and collect your rewards.
+            However, if the Alarm you will have to complete an Escape challenge in order to collect your rewards.
           </Typography>
           <br />
           <Typography>No game require use of the mouse.</Typography>
