@@ -9,6 +9,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
+import Tooltip from "@mui/material/Tooltip";
 import { Money } from "../../ui/React/Money";
 import { Intel } from "./Intel"
 import { Theme } from "@mui/material/styles";
@@ -100,11 +101,17 @@ export function MinigameOption(props: IProps): React.ReactElement {
   return (
     <Box>
       <Paper sx={{ my: 1, p: 1, width: "100%" }}>
-        <Button onClick={props.onClick}>{props.buttonText}</Button>
+        <Tooltip title={
+          <Typography>
+            {props.infoText}
+          </Typography>
+        }>
+          <Button onClick={props.onClick}>{props.buttonText}</Button>
+        </Tooltip>
         <Typography>Difficulty: <span style={{ color: difficultyColor }}>{difficultyName}</span></Typography>
         {rewardText(props.reward)}
-        <Typography>{props.infoText}</Typography>
       </Paper>
     </Box>
+
   );
 }
