@@ -32,7 +32,7 @@ Intel determines the final reward. After successfully escaping, it can be exchan
 
 Access Level determines how large the Intel and Money rewards are for each game. It starts at 0 and can be increased as a challenge reward.
 
-The formula by which rewards are modified is something like `pow(corp.maximumAccess, 2) * pow(0.65, corp.maximumAccess - accessLevel)`, so corps with high maximum access levels will give very low rewards at low access, but quite a bit larger rewards at high access.
+The formula by which rewards are modified is something like `pow(accessLevel, 1.3) * pow(0.6, corp.maximumAccess)`, so corps with high maximum access levels will give very low rewards at low access, but quite a bit larger rewards at high access.
 
 Each corp has a maximum access level preserved exactly from the maximum infiltration depth in the base game. (5 for the noodle bar, 20 for Global Pharmaceuticals, etc.)
 
@@ -40,11 +40,13 @@ Each corp has a maximum access level preserved exactly from the maximum infiltra
 
 Alarm Level increases the difficult each game is. Each game increases the alarm level by a fixed amount, regardless of whether the player succeeds or fails. A reward can reduce the alarm level.
 
-Numbers will be something like alarm level going up by 0.1 per challenge completed. Alarm level reduction rewards reduce it by a portion of its current value (like 60%), with a maximum reduction (like 1.0). An alarm level of 1.0 increases the difficulty of all challenges by 1 level.
+Numbers will be something like alarm level going up by 1 per challenge completed. Alarm level reduction rewards reduce it by a portion of its current value (66%), with a maximum reduction (like 10). Every 10 points of alarm level increases the difficulty of minigames by 1 tier. (Trivial -> Easy -> Normal -> Hard -> Impossible).
 
 ### Escape Threshold
 
 Each target has an escape threshold. If the alarm level is above the escape threshold, escaping between challenges is no longer possible. Escape will be offered as a challenge reward instead.
+
+*Currently, every target has an equal escape threshold at 10, as a placeholder.*
 
 ## Challenge Select Screen
 
@@ -66,7 +68,7 @@ Some rewards raise or lower the difficulty of the challenge they are attached to
 
 Successful completion of this game will award  Intel, which is added to the player's Intel pool.
 
-Rarity: Very Common (~45% & can appear more than once is the same set of challenges)
+Rarity: Very Common (~40% & can appear more than once is the same set of challenges)
 Difficulty: +0
 
 ### Money
