@@ -4,6 +4,7 @@ import { Theme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
 import createStyles from "@mui/styles/createStyles";
 import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -35,6 +36,13 @@ export function AlarmLevel(props: IProps): React.ReactElement {
   let thirdPart : string = ".".repeat(Math.ceil(emptyAlarmLevel));
   
   return (
-    <Typography>Alarm Level: [<span className={classes.verythreatening}>{firstPart}</span><span className={classes.threatening}>{secondPart}</span><span className={classes.safe}>{thirdPart}</span>]</Typography>
+    <Tooltip
+    title={
+      <Typography>
+        Alarm Level increases the difficulty of all challenges. When the alarm level is full, escape becomes impossible.
+      </Typography>
+    }>
+      <Typography>Alarm Level: [<span className={classes.verythreatening}>{firstPart}</span><span className={classes.threatening}>{secondPart}</span><span className={classes.safe}>{thirdPart}</span>]</Typography>
+    </Tooltip>
   );
 }

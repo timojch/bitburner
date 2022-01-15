@@ -71,6 +71,7 @@ export function Cyberpunk2077Game(props: IMinigameProps): React.ReactElement {
     }
   }
 
+  const selectedItemColor = "lightblue"
   const fontSize = "2em";
   return (
     <Grid container spacing={3}>
@@ -82,7 +83,7 @@ export function Cyberpunk2077Game(props: IMinigameProps): React.ReactElement {
           {answer.map((a, i) => {
             if (i == index)
               return (
-                <span key={`${i}`} style={{ fontSize: "1em", color: "blue" }}>
+                <span key={`${i}`} style={{ fontSize: "1em", color: selectedItemColor }}>
                   {a}&nbsp;
                 </span>
               );
@@ -100,7 +101,7 @@ export function Cyberpunk2077Game(props: IMinigameProps): React.ReactElement {
               {line.map((cell, x) => {
                 if (x == pos[0] && y == pos[1])
                   return (
-                    <span key={`${x}${y}`} style={{ fontSize: fontSize, color: "blue" }}>
+                    <span key={`${x}${y}`} style={{ fontSize: fontSize, color: selectedItemColor }}>
                       {cell}&nbsp;
                     </span>
                   );
