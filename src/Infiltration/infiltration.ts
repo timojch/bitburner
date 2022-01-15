@@ -84,7 +84,7 @@ export class Infiltration {
 
   OnFailure(challenge: IChallenge) {
     this.RecordGame(challenge.MinigameDefinition);
-    const damage = challenge.Difficulty.Difficulty * 3;
+    const damage = Math.ceil(challenge.Difficulty.Difficulty * 3);
     if (this.Player.takeDamage(damage)) {
       this.Outcome = InfiltrationOutcome.Failed;
     }
