@@ -26,9 +26,9 @@ export function Victory(props: IProps): React.ReactElement {
   }
 
   const intel = props.Metagame.Intel;
-  const repGain = Math.pow(intel, 1.1);
+  const repGain = Math.pow(intel, 1.1) * BitNodeMultipliers.InfiltrationRep;
 
-  const moneyGain = Math.pow(intel, 1.3) * 100;
+  const moneyGain = Math.pow(intel, 1.3) * 100 * BitNodeMultipliers.InfiltrationMoney;
 
   function sell(): void {
     player.gainMoney(moneyGain, "infiltration");
