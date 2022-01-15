@@ -125,6 +125,7 @@ export function Game(props: IProps): React.ReactElement {
       stageComponent = <Countdown onFinish={() => setStage(Stage.Minigame)} />;
       break;
     case Stage.Minigame: {
+      console.log(`Starting minigame ${currentChallenge.MinigameDefinition.Index} with difficulty ${currentChallenge.Difficulty.Difficulty}`)
       const MiniGame = minigameDelegates[currentChallenge.MinigameDefinition.Index];
       stageComponent = <MiniGame
         onSuccess={success}
