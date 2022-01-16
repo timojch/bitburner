@@ -10,23 +10,6 @@ type IProps = {
   difficulty: number
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    access: {
-      color: theme.colors.hack,
-    },
-    healing: {
-      color: theme.colors.hp,
-    },
-    reduceAlarm: {
-      color: theme.colors.white,
-    },
-    escape: {
-      color: theme.colors.cha
-    }
-  }),
-);
-
 const difficultyText : [number, string][] = [
   
   [3.5, "Impossible"],
@@ -44,6 +27,7 @@ const difficultyColors : [number, string][] = [
   [3.5, "purple"],
   [3.0, "red"],
   [2.5, "orange"],
+  [2.0, "#ffd700"],
   [1.5, "yellow"],
   [1.0, "lightgreen"],
   [0.5, "white"],
