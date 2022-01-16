@@ -5,7 +5,11 @@ import { KeyHandler } from "./KeyHandler";
 import { GameTimer } from "./GameTimer";
 import { interpolate } from "./Difficulty";
 import { getArrow } from "../utils";
+import { Theme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
+import makeStyles from "@mui/styles/makeStyles";
+import createStyles from "@mui/styles/createStyles";
+
 
 interface Difficulty {
   [key: string]: number;
@@ -21,11 +25,11 @@ const difficulties: {
   Hard: Difficulty;
   Impossible: Difficulty;
 } = {
-  Trivial: { timer: 12500, size: 2 * 2, sequenceLength: 6 },
-  Easy: { timer: 12500, size: 3 * 3, sequenceLength: 6 },
-  Normal: { timer: 15000, size: 4 * 4, sequenceLength: 7 },
-  Hard: { timer: 12500, size: 5 * 5, sequenceLength: 8 },
-  Impossible: { timer: 10000, size: 6 * 6, sequenceLength: 9 },
+  Trivial: { timer: 17000, size: 2 * 3, sequenceLength: 6 },
+  Easy: { timer: 16000, size: 3 * 3, sequenceLength: 6 },
+  Normal: { timer: 15000, size: 3 * 4, sequenceLength: 7 },
+  Hard: { timer: 12000, size: 4 * 4, sequenceLength: 7 },
+  Impossible: { timer: 10000, size: 5 * 5, sequenceLength: 8 },
 };
 
 export function Cyberpunk2077Game(props: IMinigameProps): React.ReactElement {
@@ -80,7 +84,7 @@ export function Cyberpunk2077Game(props: IMinigameProps): React.ReactElement {
       <GameTimer millis={timer} onExpire={props.onFailure} />
       <Grid item xs={12}>
         <Typography variant="h4">Match the symbols!</Typography>
-        <Typography variant="h5" color="primary">
+        <Typography variant="h5" color="primary" >
           Targets:{" "}
           {answer.map((a, i) => {
             if (i == index)
@@ -108,7 +112,7 @@ export function Cyberpunk2077Game(props: IMinigameProps): React.ReactElement {
                     </span>
                   );
                 return (
-                  <span key={`${x}${y}`} style={{ fontSize: fontSize }}>
+                  <span key={`${x}${y}`} style={{ fontSize: fontSize}}>
                     {cell}&nbsp;
                   </span>
                 );
