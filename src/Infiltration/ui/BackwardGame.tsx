@@ -38,6 +38,7 @@ export function BackwardGame(props: IMinigameProps): React.ReactElement {
   function press(this: Document, event: KeyboardEvent): void {
     event.preventDefault();
     if (event.key === "Backspace") return;
+    if (event.key === "Shift") return;
     const nextGuess = guess + event.key.toUpperCase();
     if (!answer.startsWith(nextGuess)) props.onFailure();
     else if (answer === nextGuess) props.onSuccess();
