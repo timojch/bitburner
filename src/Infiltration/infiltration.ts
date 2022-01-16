@@ -84,7 +84,7 @@ export class Infiltration {
     this.RecordGame(challenge.MinigameDefinition);
     this.ApplyReward(challenge.Reward);
     if (challenge.Reward.ReduceAlarmLevelAmount <= 0) {
-      this.AlarmLevel += Math.floor(1 + this.AccessLevel / 5);
+      this.AlarmLevel += 1;
     }
     else {
       this.TimesAlarmsReduced++;
@@ -105,12 +105,14 @@ export class Infiltration {
   }
 
   ApplyReward(reward: IChallengeReward): void {
-    this.AccessLevel += reward.AccessAmount;
     this.Intel += reward.IntelAmount;
 
     if (reward.MoneyAmount > 0) {
       this.Player.gainMoney(reward.MoneyAmount, "infiltration");
     }
+    
+    this.AccessLevel += reward.AccessAmount;
+    this.AccessLevel = Math.min(this.AccessLevel, this.Target.maxClearanceLevel);
 
     this.AlarmLevel -= reward.ReduceAlarmLevelAmount;
     this.AlarmLevel = Math.max(this.AlarmLevel, 0);
@@ -189,7 +191,7 @@ export class Infiltration {
     if (this.AccessLevel < this.Target.maxClearanceLevel) {
       var accessReward = new ChallengeReward();
       accessReward.AccessAmount = 1;
-      accessReward.DifficultyMod = this.AccessLevel / 10;
+      accessReward.DifficultyMod = Math.min(this.AccessLevel / 10, 1);
       ret.push([accessReward, 20]);
     }
 
@@ -243,6 +245,10 @@ export class Infiltration {
         if (pot.length > 0) {
           var jackpotReward = pot.reduce((total, value) => combineRewards(total, value));
           jackpotReward.DifficultyMod += 0.5;
+
+          jackpotReward.ReduceAlarmLevelAmount = Math.min(jackpotReward.ReduceAlarmLevelAmount, this.AlarmLevel);
+          jackpotReward.AccessAmount = Math.min(jackpotReward.AccessAmount, this.Target.maxClearanceLevel - this.AccessLevel);
+
           ret.push([jackpotReward, 10])
         }
         else {
@@ -260,8 +266,8 @@ export class Infiltration {
 
   get RewardModifier(): number {
     const levelBonus = (
-      Math.pow(this.AccessLevel, 1.3)
-      / Math.pow(this.Target.maxClearanceLevel, 0.6)
+      Math.pow(this.AccessLevel, 1.35)
+      / Math.pow(this.Target.maxClearanceLevel, 0.65)
     );
     const difficultyBonus = this.Target.startingSecurityLevel;
 
