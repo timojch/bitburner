@@ -23,7 +23,7 @@ const difficulties: {
   Easy: { timer: 9000, size: 8 },
   Normal: { timer: 6000, size: 9 },
   Hard: { timer: 5000, size: 9 },
-  Impossible: { timer: 4000, size: 12 },
+  Impossible: { timer: 3000, size: 14 },
 };
 
 export function BribeGame(props: IMinigameProps): React.ReactElement {
