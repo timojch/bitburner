@@ -26,7 +26,7 @@ const difficulties: {
   Easy: { timer: 7000, length: 6, maxRunLength: 3 },
   Normal: { timer: 6000, length: 8, maxRunLength: 3 },
   Hard: { timer: 5000, length: 10, maxRunLength: 2 },
-  Impossible: { timer: 4000, length: 12, maxRunLength: 1 },
+  Impossible: { timer: 4000, length: 18, maxRunLength: 2 },
 };
 
 function generateLeftSide(difficulty: Difficulty): string {
