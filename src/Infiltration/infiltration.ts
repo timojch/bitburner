@@ -2,9 +2,9 @@ import { IPlayer } from "../PersonObjects/IPlayer";
 import { IMinigameInfo } from "./IMinigameInfo"
 import { minigames } from "./data/minigames"
 
-import { calculateSkill } from "..//PersonObjects/formulas/skill";
+import { calculateSkill, calculateExp } from "..//PersonObjects/formulas/skill";
 import { IInfiltrationTarget } from "./IInfiltrationTarget"
-
+import { BitNodeMultipliers } from "../BitNode/BitNodeMultipliers";
 
 export interface IChallengeReward {
   IntelAmount: number,
@@ -15,7 +15,14 @@ export interface IChallengeReward {
   HealingAmount: number,
 
   HasEscape: boolean,
-  DifficultyMod: number
+  DifficultyMod: number,
+
+  HackExp: number,
+  StrExp: number,
+  DefExp: number,
+  DexExp: number,
+  AgiExp: number,
+  ChaExp: number,
 }
 
 export interface IChallengeDifficulty {
@@ -43,6 +50,13 @@ export class ChallengeReward implements IChallengeReward {
 
   HasEscape: boolean = false;
   DifficultyMod: number = 0;
+
+  HackExp: number = 0;
+  StrExp: number = 0;
+  DefExp: number = 0;
+  DexExp: number = 0;
+  AgiExp: number = 0;
+  ChaExp: number = 0;
 }
 
 export enum InfiltrationOutcome {
@@ -110,7 +124,7 @@ export class Infiltration {
     if (reward.MoneyAmount > 0) {
       this.Player.gainMoney(reward.MoneyAmount, "infiltration");
     }
-    
+
     this.AccessLevel += reward.AccessAmount;
     this.AccessLevel = Math.min(this.AccessLevel, this.Target.maxClearanceLevel);
 
@@ -119,6 +133,13 @@ export class Infiltration {
 
     this.Player.hp += reward.HealingAmount;
     this.Player.hp = Math.min(this.Player.hp, this.Player.max_hp);
+
+    this.Player.hacking_exp += reward.ChaExp;
+    this.Player.strength_exp += reward.StrExp;
+    this.Player.defense_exp += reward.DefExp;
+    this.Player.dexterity_exp += reward.DexExp;
+    this.Player.agility_exp += reward.AgiExp;
+    this.Player.charisma_exp += reward.ChaExp;
 
     if (reward.HasEscape) {
       this.Outcome = InfiltrationOutcome.Successful;
@@ -140,13 +161,17 @@ export class Infiltration {
     while (ret.length < count && chooseFrom.length > 0) {
       let id: number = Math.floor(Math.random() * chooseFrom.length);
       let randomGame = chooseFrom.splice(id, 1)[0];
-      let difficulty = (ret.length * 1 / 3) + rewards[ret.length].DifficultyMod;
-      let difficultyBasedReward = new ChallengeReward();
+      let difficultyAdded = (ret.length * 1 / 3) + rewards[ret.length].DifficultyMod;
+
       let randomReward = rewards[ret.length % rewards.length];
+
+      let difficulty = this.CreateChallengeDifficulty(difficultyAdded);
+      let difficultyBasedReward = new ChallengeReward();
       difficultyBasedReward.IntelAmount += (ret.length + 1) * (Math.random() * this.RewardModifier * 2.5);
+      difficultyBasedReward = combineRewards(difficultyBasedReward, this.CreateChallengeExpReward(difficulty.Difficulty));
       ret.push({
         MinigameDefinition: randomGame,
-        Difficulty: this.CreateChallengeDifficulty(difficulty),
+        Difficulty: difficulty,
         Reward: combineRewards(randomReward, difficultyBasedReward),
         IsComplete: false
       });
@@ -159,6 +184,83 @@ export class Infiltration {
     return {
       Difficulty: this.BaseDifficulty + (this.AlarmLevel / 10) + difficultyMod
     };
+  }
+
+  CreateChallengeExpReward(difficulty: number) {
+
+    // Long comment block explaining my thought process for how the base EXP formulas are derived.
+    //
+    // The bottom line idea is that an challenge success should grant EXP that's relevant
+    //   at the level where you can do those infiltrations. I'm ballparking it at 8% of a level
+    //   for an easy challenge.
+    //   The rest is just math to figure out what level the player's skills should be and 
+    // 
+    // Calculate what stats the player would need for this to be an easy infiltration.
+    // Start with this equation, then solve for stats.
+    //   difficulty = startingDifficulty - Math.pow(stats, 0.9) / 250 - player.intelligence / 1600;
+    // Set difficulty = 1.
+    //   1 = startingDifficulty - Math.pow(stats, 0.9) / 250 - player.intelligence / 1600
+    // We will assume the player does not have the intelligence stat. If they do, their EXP gain will be better.
+    //   1 = startingDifficulty - Math.power(stats, 0.9) / 250
+    //   1 - startingDifficulty = (-1)*Math.power(stats, 0.9) / 250
+    //   startingDifficulty - 1 = Math.power(stats, 0.9) / 250
+    //   (startingDifficulty - 1) * 250 = Math.power(stats, 0.9)
+    //   Math.pow((startingDifficulty - 1) * 250, 1.111) = stats
+    //   Math.pow((startingDifficulty - 1) , 1.111) * 461 = stats
+    // Convert from total stats to average stats
+    //   Math.pow((startingDifficulty - 1) , 1.111) * 92.2 = stats_average
+    // Now we have the formula in the right shape, but for EXP gain, we should give less at higher
+    // levels to account for the player having more augments.
+    // Set up the equation with parameters:
+    //   stats = Math.pow((startingDifficulty) - 1), p) * k = stats
+    // 
+    // k is the dominant parameter ins weak infiltrations, like n00dles,
+    // p matters more in strong infiltrations, like omega or nwo.
+    //
+    // We'll find values for these parameters by examples.
+    // A player infiltrating n00dles needs (2.5 - 1)^1.111 * 92.2 = ~152 average stats to make it easy
+    //   They probably have minimal augments, maybe 1.4x stat multipliers - so 544/5 = 109 average base stats.
+    // A player infiltrating alpha-ent needs (3.62 - 1)^1.11 * 92.2 = ~269 average stats
+    //   They probably have some augments, maybe 2.2x stat multipliers, so = 116 average base stats.
+    // A player infiltrating blade needs ~1139 average stats
+    //   They probably have *lots* of augments - maybe a 7x multiplier at least 162 average base stats.
+    //
+    // So: f( 2.50, k, p) = 109
+    //     f( 3.62, k, p) = 116
+    //     f(10.59, k, p) = 162
+    // 
+    // This shakes out to about p=0.125, k=110.
+    //
+    // So: expectedBaseStatAverage = Math.pow((securityLevel-1) ^ 0.125) * 110
+
+    const expectedBaseStatAverage = Math.pow(this.Target.startingSecurityLevel - 1, 0.125) * 110;
+    const expectedRequiredExpToLevel = (calculateExp(expectedBaseStatAverage + 1)) - calculateExp(expectedBaseStatAverage);
+
+    // Give the player approximately
+    //   1% of that for difficulty=0
+    //   7% of that for difficulty=1
+    //  15% of that for difficulty=2
+    //  26% of that for difficulty=3
+    //  40% of that for difficulty=4
+    // per minigame.
+    //  We can get pretty close to this with (2x^2 + 5x + 1)/100.
+
+    const difficultyFactor = (2 * Math.pow(difficulty, 2) + 5 * difficulty + 1) / 100;
+    const baseExpGain = expectedRequiredExpToLevel * difficultyFactor;
+
+
+    var expReward = new ChallengeReward();
+
+    // make sure to respect player.strength_exp_mult et. al
+    // make sure to respect BitNodeMultipliers.InfiltrationExpGain
+    expReward.HackExp = 0; // Infiltration does not give hack.
+    expReward.StrExp = this.Player.strength_exp_mult * baseExpGain * BitNodeMultipliers.InfiltrationExpGain;
+    expReward.DefExp = this.Player.defense_exp_mult * baseExpGain * BitNodeMultipliers.InfiltrationExpGain;
+    expReward.DexExp = this.Player.dexterity_exp_mult * baseExpGain * BitNodeMultipliers.InfiltrationExpGain;
+    expReward.AgiExp = this.Player.agility_exp_mult * baseExpGain * BitNodeMultipliers.InfiltrationExpGain;
+    expReward.ChaExp = this.Player.charisma_exp_mult * baseExpGain * BitNodeMultipliers.InfiltrationExpGain;
+
+    return expReward;
   }
 
   DrawChallengeRewards(count: number): IChallengeReward[] {
@@ -314,7 +416,14 @@ function combineRewards(a: IChallengeReward, b: IChallengeReward): IChallengeRew
     HealingAmount: a.HealingAmount + b.HealingAmount,
 
     HasEscape: a.HasEscape || b.HasEscape,
-    DifficultyMod: a.DifficultyMod + b.DifficultyMod
+    DifficultyMod: a.DifficultyMod + b.DifficultyMod,
+
+    HackExp: a.HackExp + b.HackExp,
+    StrExp: a.StrExp + b.StrExp,
+    DefExp: a.DefExp + b.DefExp,
+    DexExp: a.DexExp + b.DexExp,
+    AgiExp: a.AgiExp + b.AgiExp,
+    ChaExp: a.ChaExp + b.ChaExp,
   }
 }
 
