@@ -315,7 +315,7 @@ export class Infiltration {
       // Money reward (x2 so more than one can be drawn)
       for (let i = 0; i < 2; ++i) {
         var moneyReward = new ChallengeReward();
-        moneyReward.MoneyAmount = Math.pow(this.RewardModifier, 2.0) * 1000;
+        moneyReward.MoneyAmount = Math.pow(this.RewardModifier, 2.2) * 4000;
 
         // Draw weights for money: 20, 5, 0 as cards deplete
         ret.push([moneyReward, (5 + 15 * i)]);
