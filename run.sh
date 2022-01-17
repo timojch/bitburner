@@ -4,4 +4,4 @@
 cp .build/bitburner-win32-x64/resources/app/steam_appid.txt .build/bitburner-win32-x64/steam_appid.txt
 
 # And run the game...
-.build/bitburner-win32-x64/bitburner.exe
+.build/bitburner-win32-x64/bitburner.exe > /dev/null &
