@@ -246,8 +246,11 @@ export class Infiltration {
     //  We can get pretty close to this with (2x^2 + 5x + 1)/100.
 
     const difficultyFactor = (2 * Math.pow(difficulty, 2) + 5 * difficulty + 1) / 100;
-    const baseExpGain = expectedRequiredExpToLevel * difficultyFactor;
 
+    // Access levels 0 and 1 are worth reduced EXP to avoid players attacking super-targets and trying to get lucky for massive EXP payout.
+    const accessLevelFactor = Math.max(this.AccessLevel / 2, 1.0);
+
+    const baseExpGain = expectedRequiredExpToLevel * difficultyFactor * accessLevelFactor;
 
     var expReward = new ChallengeReward();
 
@@ -431,7 +434,7 @@ function combineRewards(a: IChallengeReward, b: IChallengeReward): IChallengeRew
 function calcRawDiff(player: IPlayer, stats: number, startingDifficulty: number): number {
   const difficulty = startingDifficulty - Math.pow(stats, 0.9) / 250 - player.intelligence / 1600;
   if (difficulty < 0) return 0;
-  if (difficulty > 3) return 3;
+  if (difficulty > 4) return 4;
   return difficulty;
 }
 
