@@ -25,11 +25,11 @@ const difficulties: {
   Hard: Difficulty;
   Impossible: Difficulty;
 } = {
-  Trivial: { timer: 17000, size: 2 * 3, sequenceLength: 4 },
-  Easy: { timer: 16000, size: 3 * 3, sequenceLength: 4 },
-  Normal: { timer: 15000, size: 3 * 4, sequenceLength: 5 },
-  Hard: { timer: 12000, size: 4 * 4, sequenceLength: 5 },
-  Impossible: { timer: 10000, size: 5 * 5, sequenceLength: 8 },
+  Trivial: { timer: 15000, size: 2 * 3, sequenceLength: 5 },
+  Easy: { timer: 14000, size: 3 * 3, sequenceLength: 5 },
+  Normal: { timer: 13000, size: 3 * 4, sequenceLength: 6 },
+  Hard: { timer: 11000, size: 4 * 4, sequenceLength: 6 },
+  Impossible: { timer: 8000, size: 5 * 5, sequenceLength: 9 },
 };
 
 export function Cyberpunk2077Game(props: IMinigameProps): React.ReactElement {
@@ -142,7 +142,7 @@ function randChar(): string {
 function generatePuzzle(difficulty: Difficulty): string[][] {
   const puzzle = [];
   let width = 1; let height = 1;
-  while (width * height < difficulty.size) {
+  while (width * (height+1) <= difficulty.size) {
     if (width <= height) {
       width++;
     }
