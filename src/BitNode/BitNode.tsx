@@ -636,6 +636,7 @@ export function initBitNodeMultipliers(p: IPlayer): void {
       BitNodeMultipliers.FactionWorkExpGain = 0.5;
       BitNodeMultipliers.HackExpGain = 0.4;
       BitNodeMultipliers.CrimeExpGain = 0.5;
+      BitNodeMultipliers.InfiltrationExpGain = 0.5;
       BitNodeMultipliers.FactionWorkRepGain = 0.75;
       BitNodeMultipliers.StaneksGiftPowerMultiplier = 1.5;
       BitNodeMultipliers.StaneksGiftExtraSize = 0;
@@ -857,6 +858,7 @@ export function initBitNodeMultipliers(p: IPlayer): void {
 
       BitNodeMultipliers.InfiltrationMoney = dec;
       BitNodeMultipliers.InfiltrationRep = dec;
+      BitNodeMultipliers.InfiltrationExpGain = dec;
 
       BitNodeMultipliers.FourSigmaMarketDataCost = inc;
       BitNodeMultipliers.FourSigmaMarketDataApiCost = inc;
@@ -898,6 +900,7 @@ export function initBitNodeMultipliers(p: IPlayer): void {
       BitNodeMultipliers.FactionWorkExpGain = 0.5;
       BitNodeMultipliers.HackExpGain = 0.1;
       BitNodeMultipliers.CrimeExpGain = 0.5;
+      BitNodeMultipliers.InfiltrationExpGain = 0.5;
 
       BitNodeMultipliers.FactionWorkRepGain = 0.6;
 

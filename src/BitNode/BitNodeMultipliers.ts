@@ -146,6 +146,11 @@ interface IBitNodeMultipliers {
   InfiltrationRep: number;
 
   /**
+   * Influences how much exp the player can gain from completing infiltration challenges
+   */
+  InfiltrationExpGain: number;
+
+  /**
    * Influences how much money can be stolen from a server when the player performs a hack against it through
    * the Terminal.
    */
@@ -274,6 +279,7 @@ export const BitNodeMultipliers: IBitNodeMultipliers = {
   CrimeExpGain: 1,
   FactionWorkExpGain: 1,
   HackExpGain: 1,
+  InfiltrationExpGain: 1,
 
   FactionPassiveRepGain: 1,
   FactionWorkRepGain: 1,
