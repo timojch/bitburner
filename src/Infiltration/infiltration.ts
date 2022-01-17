@@ -248,7 +248,7 @@ export class Infiltration {
     const difficultyFactor = (2 * Math.pow(difficulty, 2) + 5 * difficulty + 1) / 100;
 
     // Access levels 0 and 1 are worth reduced EXP to avoid players attacking super-targets and trying to get lucky for massive EXP payout.
-    const accessLevelFactor = Math.max(this.AccessLevel / 2, 1.0);
+    const accessLevelFactor = Math.min(this.AccessLevel / 2, 1.0);
 
     const baseExpGain = expectedRequiredExpToLevel * difficultyFactor * accessLevelFactor;
 
