@@ -21,8 +21,8 @@ const difficulties: {
 } = {
   Trivial: { timer: 10000, size: 6 },
   Easy: { timer: 9000, size: 8 },
-  Normal: { timer: 6000, size: 9 },
-  Hard: { timer: 5000, size: 9 },
+  Normal: { timer: 6500, size: 9 },
+  Hard: { timer: 4500, size: 9 },
   Impossible: { timer: 3000, size: 14 },
 };
 

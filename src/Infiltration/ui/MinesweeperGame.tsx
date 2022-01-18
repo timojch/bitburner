@@ -25,7 +25,7 @@ const difficulties: {
   Trivial: { timer: 15000, size: 3 * 4, mines: 4, clusterSize: 4 },
   Easy: { timer: 15000, size: 4 * 4, mines: 8, clusterSize: 4 },
   Normal: { timer: 15000, size: 4 * 5, mines: 12, clusterSize: 4 },
-  Hard: { timer: 15000, size: 5 * 5, mines: 18, clusterSize: 5 },
+  Hard: { timer: 15000, size: 5 * 5, mines: 14, clusterSize: 3 },
   Impossible: { timer: 15000, size: 7 * 7, mines: 25, clusterSize: 3 }
 };
 
@@ -120,7 +120,7 @@ function fieldEquals(a: boolean[][], b: boolean[][]): boolean {
 function generateEmptyField(difficulty: Difficulty, transpose: boolean): boolean[][] {
   const field = [];
   let width = 1; let height = 1;
-  while (width * height < difficulty.size) {
+  while (width * (height + 1) < difficulty.size) {
     if (width <= height) {
       width++;
     }

@@ -11,7 +11,6 @@ type IProps = {
 }
 
 const difficultyText : [number, string][] = [
-  
   [3.5, "Impossible"],
   [3.0, "Almost Impossible"],
   [2.5, "Very Difficult"],
@@ -20,7 +19,6 @@ const difficultyText : [number, string][] = [
   [1.0, "Normal"],
   [0.5, "Easy"],
   [0.0, "Routine"],
-  
 ]
 
 const difficultyColors : [number, string][] = [
