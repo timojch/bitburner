@@ -25,7 +25,7 @@ const difficulties: {
   Easy: { timer: 8500, minLength: 18 },
   Normal: { timer: 8000, minLength: 26 },
   Hard: { timer: 7000, minLength: 31 },
-  Impossible: { timer: 6500, minLength: 80 },
+  Impossible: { timer: 6500, minLength: 55 },
 };
 
 export function BackwardGame(props: IMinigameProps): React.ReactElement {

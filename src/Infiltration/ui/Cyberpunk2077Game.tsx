@@ -25,10 +25,10 @@ const difficulties: {
   Hard: Difficulty;
   Impossible: Difficulty;
 } = {
-  Trivial: { timer: 15000, size: 2 * 3, sequenceLength: 5 },
-  Easy: { timer: 14000, size: 3 * 3, sequenceLength: 5 },
-  Normal: { timer: 13000, size: 3 * 4, sequenceLength: 6 },
-  Hard: { timer: 11000, size: 4 * 4, sequenceLength: 6 },
+  Trivial: { timer: 12000, size: 2 * 3, sequenceLength: 5 },
+  Easy: { timer: 11000, size: 3 * 3, sequenceLength: 5 },
+  Normal: { timer: 10000, size: 3 * 4, sequenceLength: 6 },
+  Hard: { timer: 9000, size: 4 * 4, sequenceLength: 6 },
   Impossible: { timer: 8000, size: 5 * 5, sequenceLength: 9 },
 };
 

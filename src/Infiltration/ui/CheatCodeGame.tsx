@@ -25,7 +25,7 @@ const difficulties: {
   Easy: { timer: 6000, min: 7, max: 8 },
   Normal: { timer: 5000, min: 7, max: 8 },
   Hard: { timer: 4000, min: 8, max: 9 },
-  Impossible: { timer: 2000, min: 9, max: 10 },
+  Impossible: { timer: 3000, min: 9, max: 10 },
 };
 
 export function CheatCodeGame(props: IMinigameProps): React.ReactElement {
