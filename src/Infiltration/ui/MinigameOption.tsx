@@ -85,19 +85,6 @@ function rewardText(reward: IChallengeReward) {
 
 export function MinigameOption(props: IProps): React.ReactElement {
   let uiDifficulty = props.difficulty.Difficulty;
-  const difficultyName =
-    uiDifficulty >= 4 ? "Impossible" :
-      uiDifficulty >= 3 ? "Hard" :
-        uiDifficulty >= 2 ? "Normal" :
-          uiDifficulty >= 1 ? "Easy" :
-            "Routine"
-
-  const difficultyColor =
-    uiDifficulty >= 4 ? "red" :
-      uiDifficulty >= 3 ? "orange" :
-        uiDifficulty >= 2 ? "yellow" :
-          uiDifficulty >= 1 ? "green" :
-            "white"
 
   return (
     <Box>
