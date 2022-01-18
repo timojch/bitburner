@@ -134,12 +134,12 @@ export class Infiltration {
     this.Player.hp += reward.HealingAmount;
     this.Player.hp = Math.min(this.Player.hp, this.Player.max_hp);
 
-    this.Player.hacking_exp += reward.ChaExp;
-    this.Player.strength_exp += reward.StrExp;
-    this.Player.defense_exp += reward.DefExp;
-    this.Player.dexterity_exp += reward.DexExp;
-    this.Player.agility_exp += reward.AgiExp;
-    this.Player.charisma_exp += reward.ChaExp;
+    this.Player.gainHackingExp(reward.HackExp);
+    this.Player.gainStrengthExp(reward.StrExp);
+    this.Player.gainDefenseExp(reward.DefExp);
+    this.Player.gainDexterityExp(reward.DexExp);
+    this.Player.gainAgilityExp(reward.AgiExp);
+    this.Player.gainCharismaExp(reward.ChaExp);
 
     if (reward.HasEscape) {
       this.Outcome = InfiltrationOutcome.Successful;
@@ -215,7 +215,7 @@ export class Infiltration {
     //   stats = Math.pow((startingDifficulty) - 1), p) * k = stats
     // 
     // k is the dominant parameter ins weak infiltrations, like n00dles,
-    // p matters more in strong infiltrations, like omega or nwo.
+    // p matters more in strong infiltrations, like nwo or kuaigong.
     //
     // We'll find values for these parameters by examples.
     // A player infiltrating n00dles needs (2.5 - 1)^1.111 * 92.2 = ~152 average stats to make it easy
@@ -236,16 +236,29 @@ export class Infiltration {
     const expectedBaseStatAverage = Math.pow(this.Target.startingSecurityLevel - 1, 0.125) * 110;
     const expectedRequiredExpToLevel = (calculateExp(expectedBaseStatAverage + 1)) - calculateExp(expectedBaseStatAverage);
 
+    // For how much to give, we'll base it on minigame difficulty, as a quadratic.
+    //   Starting from `(2x^2 + 5x + 1) / some_constant` and then tweaking k experimentally until we
+    //   get numbers that feel right.
+    // Current some_constant = 1000
     // Give the player approximately
-    //   1% of that for difficulty=0
-    //   7% of that for difficulty=1
-    //  15% of that for difficulty=2
-    //  26% of that for difficulty=3
-    //  40% of that for difficulty=4
+    //   0.10% of that for difficulty=0
+    //   0.80% of that for difficulty=1
+    //   1.90% of that for difficulty=2
+    //   3.40% of that for difficulty=3
+    //   5.30% of that for difficulty=4
     // per minigame.
-    //  We can get pretty close to this with (2x^2 + 5x + 1)/100.
+    //
+    // Depending on how fast the player can complete minigames, this means infiltrating n00dles 
+    //   and building alarm level until every game is around Very Difficult is about equal to
+    //   spamming crimes. Harder targets are worth more.
+    //
+    // Infiltrating Kuai Gong (16.25 - very hard target)
+    //   with difficulty 3 minigames gives 70.1 EXP per stat per game, 350 base-EXP per game total
+    //   If games take 15 seconds, this is about 24 base-EXP/second, which is 250% of ZB's best courses.
+    //
+    // Leaving it as-is for now.
 
-    const difficultyFactor = (2 * Math.pow(difficulty, 2) + 5 * difficulty + 1) / 100;
+    const difficultyFactor = (2 * Math.pow(difficulty, 2) + 5 * difficulty + 1) / 1000;
 
     // Access levels 0 and 1 are worth reduced EXP to avoid players attacking super-targets and trying to get lucky for massive EXP payout.
     const accessLevelFactor = Math.min(this.AccessLevel / 2, 1.0);
