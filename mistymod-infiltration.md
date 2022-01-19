@@ -2,21 +2,18 @@
 
 During an infiltration, the player tries to accumulate Intel and then escape by playing minigames. If they successfully escape, their accumulated intel can be cashed out for rep or money.
 
-## Goals
+## Highlights
+* Infiltrations are **much** longer, with the option to keep going even at maximum access level for additional rewards. (It does get harder and harder, though)
+* At each step in an infiltration, you can choose betwene one of three games, with different rewards for each game.
+* You can exit an infiltration early for partial rewards.
+* Infiltration is worth EXP
+* Non-EXP Infiltration rewards no longer scale negatively with level
+* The difficulty on the games is changed. Some are easier, some are harder. Hopefully should be overall smoother.
+* UI improvements to some of the games, including numpad support
 
-The goal of this mod is...
-
-1. To make infiltration more strategic / *Players feel like they're making choices during infiltrations.*
-2. To make infiltration more enticing / *Players should be excited to try to infiltrate a target even if their stats aren't high enough to fully infiltrate it.*
-3. To make infiltration less repetitive / *Players should get their fill of infiltration in a single go - they should not immediately re-enter an infiltration after completing one.*
-4. To preserve compatibility with existing interfaces / *I can update easily if hydroflame adds a new minigame*
-
-## Non-goals
-
-The goal of this mod is NOT...
-
-1. To make infiltration easier. / *Players should NOT full-clear infiltrations at lower stat levels than they could in the un-modded version.*
-2. To substantially increase infiltration rewards / *Players should NOT get substantially more rewards for the same amount of time spent infiltrating, on average, as they could in the un-modded version.*
+## Caveats
+* Steam achievements are disabled in the release copies. (You can add achievements back in easily if you download the source)
+* Binary releases are only available for Windows x64 and Linux x64 (but can be built from source).
 
 ## Infiltration Stats
 
@@ -114,20 +111,3 @@ Escape is **not** optional. If a *Jackpot!* contains Escape, claiming it ends th
 
 Rarity: Very Rare (~2.5%)
 Difficulty: +1, +modifiers from other rolled options.
-
-## Stretch Goals
-
-Now that I'm done with the above, I might do some of the following.
-
-### Coming Up?
-* Change the way stats impact challenges - for example, Dexterity and Agility might increase the time limits on some games, while Strength, Charisma, and Hacking decrease their difficulties. Defense already affects HP, so probably not much to do there. (Might need to be careful with Hack; it's much easier to get a high hacking stat than physical stats in the early game. Also this contradicts design goal #4.)
-* Make challenges award EXP
-* Do a difficulty pass to bring the different challenge minigames more into alignment. Need more playtesters for this, though. Just because **I** can't seem to win at *Match the Symbols!* no matter how hard I try doesn't mean it's actually overtuned.
-
-### Half-baked ideas
-* Make different factions like Intel on different targets. Slum Snakes might want to know about Aevum Police and Joes Guns, while NiteSec is more interested in technology companies)
-* Add more infiltration targets (including the three-letter agencies)
-* Add some new unique augments could be offered as super rare challenge rewards - steal a prototype *DataJack II* from OmniTech!
-
-### Half-assed ideas
-* Add a BitNode that's all about infiltration. This honestly sounds pretty terrible; infiltration is still best in small doses and can't be automated, which means that a bitnode about it would get repetive fast.
