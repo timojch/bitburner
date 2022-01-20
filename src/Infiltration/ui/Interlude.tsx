@@ -3,6 +3,7 @@ import { Infiltration, IChallenge, IChallengeReward } from "../infiltration";
 import { MinigameOption } from "./MinigameOption";
 import { AlarmLevel } from "./AlarmLevel"
 import { Intel } from "./Intel"
+import { getArrow } from "../utils";
 
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -17,8 +18,34 @@ interface IProps {
 }
 
 export function Interlude(props: IProps): React.ReactElement {
+  const [selectionIndex, setIndex] = useState(0);
 
+  function press(this: Document, event: KeyboardEvent): void {
+    event.preventDefault();
+    const k = event.key;
+    if (k === " ") {
+      props.onSelect(props.options[selectionIndex]);
+      return;
+    }
+
+    let newIndex = selectionIndex;
+    for (let arrow of getArrow(event)) {
+      switch (arrow) {
+        case "↑":
+          newIndex++;
+          break;
+        case "↓":
+          newIndex--;
+          break;
+      }
+    }
+
+    while (newIndex < 0) newIndex += props.options.length;
+    while (newIndex > props.options.length - 1) newIndex -= props.options.length;
+    setIndex(newIndex);
+  }
   const canRetreat = props.metagame.AlarmLevel <= props.metagame.Target.maxAlarmLevelForEscape
+
 
   function challengeOption(challenge: IChallenge, index: number): React.ReactElement {
     return (
@@ -26,6 +53,7 @@ export function Interlude(props: IProps): React.ReactElement {
         buttonText={challenge.MinigameDefinition.FriendlyName}
         infoText={challenge.MinigameDefinition.Description}
         difficulty={challenge.Difficulty}
+        isSelected={selectionIndex == index}
         reward={challenge.Reward}
         onClick={() => props.onSelect(challenge)}
         key={index}

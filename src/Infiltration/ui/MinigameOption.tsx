@@ -23,6 +23,7 @@ type IProps = {
   buttonText: string;
   infoText: string;
   difficulty: IChallengeDifficulty;
+  isSelected: boolean;
   reward: IChallengeReward
   onClick: (e: React.MouseEvent<HTMLElement>) => void;
 };
@@ -85,10 +86,11 @@ function rewardText(reward: IChallengeReward) {
 
 export function MinigameOption(props: IProps): React.ReactElement {
   let uiDifficulty = props.difficulty.Difficulty;
+  let outlineColor = props.isSelected ? "primary" : "secondary";
 
   return (
     <Box>
-      <Paper sx={{ my: 1, p: 1, width: "100%" }}>
+      <Paper sx={{ my: 1, p: 1, width: "100%", color: outlineColor }}>
         <Tooltip title={
           <Typography>
             {props.infoText}
@@ -96,7 +98,7 @@ export function MinigameOption(props: IProps): React.ReactElement {
         }>
           <Button onClick={props.onClick}>{props.buttonText}</Button>
         </Tooltip>
-        <ChallengeDifficultyText difficulty={props.difficulty.Difficulty} />
+        <ChallengeDifficultyText difficulty={uiDifficulty} />
         {rewardText(props.reward)}
       </Paper>
     </Box>
