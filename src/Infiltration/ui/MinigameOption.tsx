@@ -4,6 +4,7 @@
  * augmentations, etc.
  */
 import * as React from "react";
+import clsx from "clsx";
 
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -41,6 +42,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     escape: {
       color: theme.colors.cha
+    },
+    active: {
+      border: "1px solid " + theme.palette.primary.main,
+    },
+    inactive:{
+      border: "1px solid " + theme.palette.secondary.main,
     }
   }),
 );
@@ -86,11 +93,15 @@ function rewardText(reward: IChallengeReward) {
 
 export function MinigameOption(props: IProps): React.ReactElement {
   let uiDifficulty = props.difficulty.Difficulty;
-  let outlineColor = props.isSelected ? "primary" : "secondary";
+  let classes = useStyles();
 
   return (
     <Box>
-      <Paper sx={{ my: 1, p: 1, width: "100%", color: outlineColor }}>
+      <Paper 
+        sx={{ my: 1, p: 1, width: "100%" }} 
+        className={clsx({
+          [classes.active]: props.isSelected,
+        })}>
         <Tooltip title={
           <Typography>
             {props.infoText}

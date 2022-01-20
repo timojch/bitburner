@@ -4,6 +4,7 @@ import { MinigameOption } from "./MinigameOption";
 import { AlarmLevel } from "./AlarmLevel"
 import { Intel } from "./Intel"
 import { getArrow } from "../utils";
+import { KeyHandler } from "./KeyHandler";
 
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -20,22 +21,31 @@ interface IProps {
 export function Interlude(props: IProps): React.ReactElement {
   const [selectionIndex, setIndex] = useState(0);
 
+  const canRetreat = props.metagame.AlarmLevel <= props.metagame.Target.maxAlarmLevelForEscape
+
   function press(this: Document, event: KeyboardEvent): void {
     event.preventDefault();
     const k = event.key;
-    if (k === " ") {
+    if (k === " " || k === "Enter") {
       props.onSelect(props.options[selectionIndex]);
       return;
+    }
+
+    if(k === "Escape") {
+      if(canRetreat) {
+        props.onRetreat();
+        return;
+      }
     }
 
     let newIndex = selectionIndex;
     for (let arrow of getArrow(event)) {
       switch (arrow) {
         case "↑":
-          newIndex++;
+          newIndex--;
           break;
         case "↓":
-          newIndex--;
+          newIndex++;
           break;
       }
     }
@@ -44,7 +54,10 @@ export function Interlude(props: IProps): React.ReactElement {
     while (newIndex > props.options.length - 1) newIndex -= props.options.length;
     setIndex(newIndex);
   }
-  const canRetreat = props.metagame.AlarmLevel <= props.metagame.Target.maxAlarmLevelForEscape
+
+  function failChallengeSelect(options?: { automated: boolean }): void {
+    // At the moment, you can't fail the challenge select screen. Swallow these.
+  }
 
 
   function challengeOption(challenge: IChallenge, index: number): React.ReactElement {
@@ -65,6 +78,7 @@ export function Interlude(props: IProps): React.ReactElement {
 
   return (
     <>
+      <KeyHandler onKeyDown={press} onFailure={failChallengeSelect} />
       <Box display="flex">
         <Tooltip
           title={
