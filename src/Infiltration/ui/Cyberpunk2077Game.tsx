@@ -27,9 +27,9 @@ const difficulties: {
 } = {
   Trivial: { timer: 12000, size: 2 * 3, sequenceLength: 5 },
   Easy: { timer: 10000, size: 3 * 3, sequenceLength: 5 },
-  Normal: { timer: 8000, size: 3 * 4, sequenceLength: 6 },
-  Hard: { timer: 6500, size: 4 * 4, sequenceLength: 6 },
-  Impossible: { timer: 5000, size: 5 * 5, sequenceLength: 7 },
+  Normal: { timer: 8500, size: 3 * 4, sequenceLength: 6 },
+  Hard: { timer: 7500, size: 4 * 4, sequenceLength: 6 },
+  Impossible: { timer: 7000, size: 5 * 5, sequenceLength: 7 },
 };
 
 export function Cyberpunk2077Game(props: IMinigameProps): React.ReactElement {
