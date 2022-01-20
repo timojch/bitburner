@@ -5,6 +5,7 @@ import { KeyHandler } from "./KeyHandler";
 import { GameTimer } from "./GameTimer";
 import { interpolate } from "./Difficulty";
 import Typography from "@mui/material/Typography";
+import { getArrow } from "../utils";
 
 interface Difficulty {
   [key: string]: number;
@@ -20,10 +21,10 @@ const difficulties: {
   Impossible: Difficulty;
 } = {
   Trivial: { timer: 10000, size: 6 },
-  Easy: { timer: 9000, size: 8 },
-  Normal: { timer: 6500, size: 9 },
-  Hard: { timer: 4500, size: 9 },
-  Impossible: { timer: 3000, size: 14 },
+  Easy: { timer: 6000, size: 8 },
+  Normal: { timer: 4500, size: 9 },
+  Hard: { timer: 3500, size: 9 },
+  Impossible: { timer: 1500, size: 14 },
 };
 
 export function BribeGame(props: IMinigameProps): React.ReactElement {
@@ -43,8 +44,17 @@ export function BribeGame(props: IMinigameProps): React.ReactElement {
     }
 
     let newIndex = index;
-    if (["ArrowUp", "w", "ArrowRight", "d"].includes(k)) newIndex++;
-    if (["ArrowDown", "s", "ArrowLeft", "a"].includes(k)) newIndex--;
+    for (let arrow of getArrow(event)) {
+      switch (arrow) {
+        case "↑":
+          newIndex++;
+          break;
+        case "↓":
+          newIndex--;
+          break;
+      }
+    }
+
     while (newIndex < 0) newIndex += choices.length;
     while (newIndex > choices.length - 1) newIndex -= choices.length;
     setIndex(newIndex);

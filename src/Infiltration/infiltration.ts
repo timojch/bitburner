@@ -387,7 +387,7 @@ export class Infiltration {
       Math.pow(this.AccessLevel, 1.35)
       / Math.pow(this.Target.maxClearanceLevel, 0.65)
     );
-    const difficultyBonus = this.Target.startingSecurityLevel;
+    const difficultyBonus = (this.Target.startingSecurityLevel - 1);
 
     // Some example values:
     //   n00dles  @ Access  1/5   :  0.687
