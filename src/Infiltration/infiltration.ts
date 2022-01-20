@@ -337,8 +337,10 @@ export class Infiltration {
       // Decrease alarm reward
       if (this.AlarmLevel >= 4 && this.TimesAlarmsReduced < 5) {
         var alarmReward = new ChallengeReward();
-        alarmReward.ReduceAlarmLevelAmount = Math.floor(Math.min(this.AlarmLevel * (2 / 3), 10.0));
-        ret.push([alarmReward, 20 - (this.TimesAlarmsReduced * 4)])
+        alarmReward.ReduceAlarmLevelAmount = Math.floor(Math.min(this.AlarmLevel * (2 / 3), this.Target.maxAlarmLevelForEscape));
+        let maxAlarmReductions = Math.floor(this.Target.startingSecurityLevel / 5) + 4;
+        let remainingAlarmReductions = maxAlarmReductions - this.TimesAlarmsReduced;
+        ret.push([alarmReward, 20 * (remainingAlarmReductions / maxAlarmReductions)])
       }
 
       // Healing reward - appears if below 50% health
@@ -352,6 +354,7 @@ export class Infiltration {
       if (this.AlarmLevel > this.Target.maxAlarmLevelForEscape) {
         var escapeReward = new ChallengeReward();
         escapeReward.HasEscape = true;
+        escapeReward.DifficultyMod = -0.5;
         ret.push([escapeReward, 10])
       }
 
